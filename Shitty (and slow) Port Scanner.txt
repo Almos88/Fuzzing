@@ -1,0 +1,39 @@
+        #! /usr/bin/python3
+						#scanner.py όνομα
+	import sys                                                                                                                           #για τα command line arguments (μεταξύ άλλων)
+	import socket                                                                                                                       #για τα connections
+	from datetime import datetime
+	                                                                                         #προσδιορίζουμε το target μας
+	if len(sys.argv) ==2:                                                                                                            #αν έχουμε 2 arguments τότε μπορούμε να προσδιορίσουμε τον target μας
+		target = socket.gethostbyname(sys.argv[1])                                                                         #μετατρέπει το hostname σε ipv4 αν χρειάζεται
+	else:
+		print("Invalid amount of argument.")
+		print("Syntax: python 3 scanner.py <ip>")                                                                             #σωστή σύνταξη σε περίπτωση λάθος εισαγωγής
+		sys.exit
+		                                                                                     #ομορφαίνουμε λίγο την ζωή μας
+		print("-" * 50)
+		print("Scanning target "+target)
+		print("TIme started: "+str(datetime.now()))
+		print("-" * 50)
+			                                                                                 #expecption handler	
+		try:
+			for port in range(50,85)                                                  #define ports for scann
+			s = socket.socket(socket.AF_INET, socket.S0CK_STREAM)    #AF_INET=ipv4, S0CK_STREAM=port
+			socket.setdefaulttimeout(1)											 #είναι float άρα μπορώ να βάλω και .5
+			result = s.connect_ex((target, port))                                #κάνω store τα αποτελέσματα και μας επιστρέφει error indicator (αν επιστρέψει 0 σημαίνει ότι δεν βρήκε error)
+			print("Checking port {}".format(port))                               #Για να βεβαιωθούμε ότι τρέχει και να ξέρουμε και που βρισκόμαστε			
+			if result == 0:     	                                                        #αν επιστρέψει 0 σημαίνει ότι δεν βρήκε error
+				print("Port {} is open".format(port))
+			s.close()
+		
+		except KeyboardInterrupt:                                                 #System Interrupt exception
+			print("\nExiting program.")
+			sys.exit()
+			
+		except socket.gaierror:                                                     #Δεν μπορεί να συνδεθεί στο hostname exception
+			print("Hostname could not be resolved."
+			sys.exit()
+			
+		except.socket.error:		                                                   #Δεν μπορούμε να συνδεθούμε καθόλου (πχ ο server έχει πέσει)
+			print("Couldn't connect to server.")
+			sys.exit()
